@@ -1,15 +1,20 @@
-![header](https://capsule-render.vercel.app/api?type=rect&color=gradient&text=아스팔트%20도로%20유지보수를%20위한%20실시간%20도로%20파손%20감지&fontSize=32)
+![header](https://capsule-render.vercel.app/api?type=rect&color=0:DB7093,100:D3D3D3&text=아스팔트%20도로%20유지보수를%20위한%20실시간%20도로%20파손%20감지&fontSize=32)
 <div align="left">
 	<img src="https://img.shields.io/badge/Python-3776AB?style=flat&logo=Python&logoColor=white" />
 	<img src="https://img.shields.io/badge/Pytorch-EE4C2C?style=flat&logo=Pytorch&logoColor=white" />
 	<img src="https://img.shields.io/badge/OpenMMLab-181717?style=flat&logo=Github&logoColor=white" />
+	<img src="https://img.shields.io/badge/FastAPI-009688?style=flat&logo=FastAPI&logoColor=white" />
+	<img src="https://img.shields.io/badge/Streamlit-FF4B4B?style=flat&logo=Streamlit&logoColor=white" />
+	<img src="https://img.shields.io/badge/GoogleCloud-4285F4?style=flat&logo=GoogleCloud&logoColor=white" />
+	<img src="https://img.shields.io/badge/Flutter-02569B?style=flat&logo=Flutter&logoColor=white" />
+   
 </div>
 &nbsp;
 
 # Members
 - **김도윤**  : Classification Baseline 작성 및 실험, 데이터 전처리 및 Annotation 작업, Object Detection Model 실험, 서비스 배포를 위한 Backend
 - **김윤호**  : Classification Baseline 작성 및 실험, 데이터 전처리 및 Annotation 작업, Object Detection Model 실험, 실시간 이미지 전송을 위한 Streamlit Frontend 모듈 구현
-- **김종해**  : Frontend 및 Backend Pipeline 구현, 데이터 전처리 및 Annotation 작업, Object Detection Model 실험, GCS 기반 DB 구축, Google Bigquery를 활용한 데이터 Log 생성, Streamlit을 활용한 실시간 데이터 시각화
+- **김종해**  : Frontend 및 Backend Pipeline 구현, 데이터 전처리 및 Annotation 작업, Object Detection Model 실험, GCS 기반 DB 구축, Google Bigquery를 활용한 데이터 Log 생성, Streamlit을 활용한 실시간 데이터 시각화, Flutter 기반 어플리케이션 개발
 - **조재효**  : Frontend 및 Backend Pipeline 구현, 데이터 전처리 및 Annotation 작업, Object Detection Model 실험
 - **허진녕**  : Classification Baseline 작성 및 실험, 데이터 전처리 및 Annotation 작업, Object Detection Model 실험 
 
@@ -26,16 +31,23 @@
 ```
 ├─ input
 │  ├─ train
-│  │  ├─ images
-│  │  └─ annotations
-│  ├─ valid
-│  │  ├─ images
-│  │  └─ annotations
-│  └─ test
-│     └─ images
+│  │  └─ 0000.png
+│  ├─ test
+│  │  └─ 0000.png
+│  └─ annotation
+│     ├─ train.json
+│     └─ test.json
 │
 └─ final_project
    ├─ .git  
+   ├─ apk
+   │  ...
+   │  └─ main.dart
+   ├─ app
+   │  ├─ routers
+   │  ├─ main.py
+   │  └─ frontend.py
+   ├─ classification
    ├─ mmdetection
    ├─ notebook
    ├─ script
@@ -46,19 +58,19 @@
 &nbsp;
 
 # 프로젝트 수행 절차
-<img width="850" alt="image" src="https://user-images.githubusercontent.com/69153087/217487359-ca40d0b4-ed29-4dd1-b479-2318f2b09012.png">
+<img width="850" alt="image" src="https://user-images.githubusercontent.com/93418123/218273807-b88c77e1-26a6-47e6-9a02-5db8afc68079.jpg">
+
 
 &nbsp;
 
 # Dataset
 ### **AIHub 개방 데이터셋**
 <a href="https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=179" height="5" width="10" target="_blank">
-	<img width="500" alt="image" src="https://user-images.githubusercontent.com/69153087/217480126-21b2d495-89f7-4f23-b200-6d095150c884.png">
-</a><br>
+<img width="500" alt="image" src="https://user-images.githubusercontent.com/69153087/217480126-21b2d495-89f7-4f23-b200-6d095150c884.png">
+</a>
 <a href="https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=178" height="5" width="10" target="_blank">
 <img width="500" alt="image" src="https://user-images.githubusercontent.com/69153087/217480692-67586070-0a26-4635-bded-8d63e566367b.png">
-</a><br>
-
+</a>
 
 &nbsp;
 
@@ -77,9 +89,9 @@
 &nbsp;
 
 # Annotation Tool
-<img width="400" alt="image" src="https://user-images.githubusercontent.com/69153087/217476587-2eccb51c-c5c3-436a-bd8a-7f217fdcc14b.png">
-
-<br> 
+<a href="https://www.cvat.ai/" height="5" width="10" target="_blank">
+<img width="150" alt="image" src="https://user-images.githubusercontent.com/69153087/217476587-2eccb51c-c5c3-436a-bd8a-7f217fdcc14b.png">
+</a><br>
 <img width="600" alt="image" src="https://user-images.githubusercontent.com/69153087/217484193-ae6fac26-2419-4a4e-b219-714184e32f43.png">
 
 &nbsp;
@@ -97,17 +109,26 @@
 |Cascade_ConvNeXt|0.4800|
 |Cascade_SwinL|0.5860|
 
-- __최종 모델 : Cascade_swinL__
+- __최종 모델 : Cascade_Swin_Large__
 
 &nbsp;
 
 # Service Architecture
 <img width="700" alt="image" src="https://user-images.githubusercontent.com/69153087/217483664-6cfcf439-6406-4fb9-9687-5a4a1c1203e1.png">
 
+1. 데이터 수집
+   - 차량 영상기록장치가 주기적으로 아스팔트 도로를 촬영, 이미지와 그 때의 위치정보를 Backend 서버로 전송
+2. 모델개발 및 Backend 서버구축
+   - Object Detection 모델을 활용하여, 전송받은 이미지 속 포트홀이 탐지하고, 포트홀이 존재할 경우 메타데이터와 함께 DB에 저장
+3. 데이터저장 및 로그관리
+   - 포트홀이 존재하는 이미지에 한해 이미지 고유아이디, 시간, 이미지 속 포트홀 위치, 이미지 촬영 시 위도와 경도를 포함하여 메타데이터 생성
+   - 메타데이터는 Bigquery에 로그로서 기록되고, 이미지와 함께 Google Cloud Storage에 저장
+4. 데이터관리
+   - DB에 저장된 데이터를 지도 상에서 한 눈에 확인 가능
+   - 유지보수 Manager는 '보수완료' 버튼을 통해 지도 상에서 데이터 삭제 가능
+
 &nbsp;
 
 # 시연영상
 ![시연영상](https://user-images.githubusercontent.com/69153087/217509028-50d45690-90d9-427e-b4f6-a6afcaafa3d5.gif)
 ![20230208151451_f4dd945c (1)](https://user-images.githubusercontent.com/69153087/217509929-ded87c38-e688-465a-a944-2ee6b9cf3227.jpg)
-
-
