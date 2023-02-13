@@ -22,12 +22,13 @@
 
 # 프로젝트 개요
 > 폭설, 폭우, 도로의 노후화로 생긴 포트홀은 수많은 운전자를 위협하고 있습니다. 아스팔트 도로 위의 포트홀은 차량을 파손할 뿐만 아니라, 운전자 역시 크게 다치거나 사망하는 인명사고로 이어질 수 있습니다.
-하지만 지구 둘레의 약 2.8배인 아스팔트 도로 위에서, 포트홀이 어디에 있는지 알기는 쉽지 않습니다. 이러한 문제를 해결하고자, 인공지능을 활용하여 방대한 아스팔트 도로를 빠르게 점검하고 포트홀을 감지하는 서비스를 개발하며, 결과적으로 신속한 도로 유지보수를 가능하게 할 것입니다.
+하지만 지구 둘레의 약 2.8배인 아스팔트 도로 위에서, 포트홀이 어디에 있는지 알기는 쉽지 않습니다.  
+이러한 문제를 해결하고자, 인공지능을 활용하여 방대한 아스팔트 도로를 빠르게 점검하고 포트홀을 감지하는 서비스를 고안하였고, 이는 신속한 도로 유지보수를 가능하게 할 것입니다.
 
 &nbsp;
 
 
-# 데이터셋 구조
+# Repository 구조
 ```
 ├─ input
 │  ├─ train
@@ -45,6 +46,7 @@
    │  └─ main.dart
    ├─ app
    │  ├─ routers
+   │  │  └─ Det.py
    │  ├─ main.py
    │  └─ frontend.py
    ├─ classification
@@ -54,11 +56,10 @@
    └─ .gitignore
 ```	
 
-
 &nbsp;
 
 # 프로젝트 수행 절차
-<img width="850" alt="image" src="https://user-images.githubusercontent.com/93418123/218273807-b88c77e1-26a6-47e6-9a02-5db8afc68079.jpg">
+<img width="600" alt="image" src="https://user-images.githubusercontent.com/93418123/218273807-b88c77e1-26a6-47e6-9a02-5db8afc68079.jpg">
 
 
 &nbsp;
@@ -77,18 +78,23 @@
 # Image Classification 실험 결과
 |모델|Best Accuracy|
 |------|---|
-|EfficentNet_b1|90.25|
-|EfficentNet_b2|91.35|
+|EfficientNet_b1|90.25|
+|EfficientNet_b2|91.35|
 |MobileNet_small|73.94|
 |MobileNet_large|87.05|
 |ResNet50|87.98|
 |ResNeSt|90.02|
 
-- __최종 모델 : EfficentNet_b2__
+- __최종 모델 : EfficientNet_b2__
 
 &nbsp;
 
 # Annotation Tool
+- Object Detection을 수행하기 위한 Annotation 작업 진행
+   - 데이터 검수 결과, 불규칙적인 Annotation임을 확인
+   - 자체 Annotation rules를 수립하여 작업 진행
+   - 저작도구 : Computer Vision Annotation Tool (CVAT)
+
 <a href="https://www.cvat.ai/" height="5" width="10" target="_blank">
 <img width="150" alt="image" src="https://user-images.githubusercontent.com/69153087/217476587-2eccb51c-c5c3-436a-bd8a-7f217fdcc14b.png">
 </a><br>
@@ -97,31 +103,27 @@
 &nbsp;
 
 # Object Detection 실험 결과
-|1 stage 모델|Best mAP50|
-|------|---|
-|YOLOF|0.3250|
-|YOLOX|0.4610|
-|YOLOV7|0.5293|
-
-|2 stage 모델|Best mAP50|
-|------|---|
-|Cascade_rcnn_r101|0.4590|
-|Cascade_ConvNeXt|0.4800|
-|Cascade_SwinL|0.5860|
+|1 stage 모델|Best mAP50|2 stage 모델|Best mAP50|
+|------|---|------|---|
+|YOLOF|0.3250|Cascade_rcnn_r101|0.4590|
+|YOLOX|0.4610|Cascade_ConvNeXt|0.4800|
+|YOLOV7|0.5293|Cascade_SwinL|0.5860|
 
 - __최종 모델 : Cascade_Swin_Large__
 
 &nbsp;
 
 # Service Architecture
-<img width="700" alt="image" src="https://user-images.githubusercontent.com/69153087/217483664-6cfcf439-6406-4fb9-9687-5a4a1c1203e1.png">
+<img width="600" alt="image" src="https://user-images.githubusercontent.com/69153087/217483664-6cfcf439-6406-4fb9-9687-5a4a1c1203e1.png">
 
 1. 데이터 수집
-   - 차량 영상기록장치가 주기적으로 아스팔트 도로를 촬영, 이미지와 그 때의 위치정보를 Backend 서버로 전송
+   - 차량 영상기록장치가 주기적으로 아스팔트 도로를 촬영
+   - 이미지와 그 때의 위치정보를 Backend 서버로 전송
 2. 모델개발 및 Backend 서버구축
-   - Object Detection 모델을 활용하여, 전송받은 이미지 속 포트홀이 탐지하고, 포트홀이 존재할 경우 메타데이터와 함께 DB에 저장
+   - Object Detection 모델을 활용하여, 전송받은 이미지 속 포트홀을 탐지
+   - 포트홀이 존재할 경우 메타데이터를 생성
 3. 데이터저장 및 로그관리
-   - 포트홀이 존재하는 이미지에 한해 이미지 고유아이디, 시간, 이미지 속 포트홀 위치, 이미지 촬영 시 위도와 경도를 포함하여 메타데이터 생성
+   - 이미지 고유아이디, 시간, 이미지 속 포트홀 위치, 이미지 촬영 시 위도와 경도를 포함하는 메타데이터 생성
    - 메타데이터는 Bigquery에 로그로서 기록되고, 이미지와 함께 Google Cloud Storage에 저장
 4. 데이터관리
    - DB에 저장된 데이터를 지도 상에서 한 눈에 확인 가능
