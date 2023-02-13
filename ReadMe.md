@@ -76,14 +76,11 @@
 &nbsp;
 
 # Image Classification 실험 결과
-|모델|Best Accuracy|
-|------|---|
-|EfficientNet_b1|90.25|
-|EfficientNet_b2|91.35|
-|MobileNet_small|73.94|
-|MobileNet_large|87.05|
-|ResNet50|87.98|
-|ResNeSt|90.02|
+|모델|Best Accuracy|모델|Best Accuracy|
+|------|---|------|---|
+|EfficientNet_b1|90.25|MobileNet_large|87.05|
+|EfficientNet_b2|91.35|ResNet50|87.98|
+|MobileNet_small|73.94|ResNeSt|90.02|
 
 - __최종 모델 : EfficientNet_b2__
 
